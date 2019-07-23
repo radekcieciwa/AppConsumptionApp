@@ -37,15 +37,18 @@ class RamAllocationViewController: UIViewController {
         super.viewDidLoad()
 
         self.allocator.onMemoryUpdate = { (physical, user) in
-            let taken = Float(user) / Float(physical)
-            let free = physical - user
+            let applicationUsedMemoryMB: Float = MemoryAllocation.usedRamMb() ?? 0.0
+            let userAllocatedMemoryMB: Float = Float(user) / Float.megaByte
+//            let taken = Float(user) / Float(physical)
+//            let free = physical - user
 
-            let freeInMBString = self.formatter.string(from: NSNumber(value: Float(free) / Float.megaByte))!
-            let userMB = self.formatter.string(from: NSNumber(value: Float(user) / Float.megaByte))!
+//            let freeInMBString = self.formatter.string(from: NSNumber(value: ))!
+//            let userMB = self.formatter.string(from: NSNumber(value: Float(user) / Float.megaByte))!
+//            let userMB = self.formatter.string(from: NSNumber(value: usedMemory))!
 
-            self.freeSpaceLabel.text = "\(freeInMBString) MB"
-            self.progressValue.text = "\(userMB) MB"
-            self.progressView.progress = taken
+            self.freeSpaceLabel.text = "\(userAllocatedMemoryMB) MB"
+            self.progressValue.text = "\(applicationUsedMemoryMB) MB"
+//            self.progressView.progress = taken
         }
 
         self.allocator.clearAll()
